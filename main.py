@@ -1,10 +1,6 @@
 from flask_restful import Resource, reqparse
-import pandas as pd
-import json
-import boto3
-from boto3.dynamodb.conditions import key, Attr
-import os
-import requests
+from boto3.dynamodb.conditions import Attr
+from dynampdb_connection import scan_database
 
 
 class Payload(Resource):
@@ -52,6 +48,22 @@ class Mulitiselection(Payload):
         self.cd_n = self.cd_n
         self.lo_cation = self.lo_cation
         self.agg_interval = self.agg_interval
+
+    def post(self):
+        table_name = "employee"
+        kwargs = {
+            'FilterExpression': Attr("metricname").eq(self.m_name) &
+                                Attr("content_partner").eq(self.con_partner) &
+                                Attr("device_model").eq(self.dev_model) &
+                                Attr("device_platform").eq(self.dev_plat) &
+                                Attr("content_type").eq(self.con_type) &
+                                Attr("cdn").eq(self.cd_n) &
+                                Attr("location").eq(self.lo_cation) &
+                                Attr("location").eq(self.agg_interval)
+        }
+        get_filter_data = [i for i in scan_database(table_name, kwargs)]
+        return get_filter_data
+
 
 
 
