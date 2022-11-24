@@ -6,6 +6,7 @@ import json
 class Payload(Resource):
 
     def __init__(self):
+        """This is a payload"""
         parser = reqparse.RequestParser()
         self.metricname = parser.add_argument("metricname", type=str, required=True, 
                                             help="This should be a platform")
