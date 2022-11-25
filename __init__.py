@@ -8,7 +8,7 @@ def main():
     app = Flask(__name__)
     # creating an API object
     api = Api(app)
-    api.add_resource(Mulitiselection, '/square/mulitiselection')
+    api.add_resource(Mulitiselection, '/api/unique_filters')
     return app
 
 
